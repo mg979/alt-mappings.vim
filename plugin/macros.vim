@@ -30,6 +30,6 @@ endif
 
 " enable alt bindings on load
 let g:loaded_alt_mappings = 1
-let g:alt_maps_mode       = get(g:, 'alt_maps_mode', 0)
-au VimEnter * call altmaps#set(1, g:alt_maps_mode)
+let g:alt_keys_enabled = 0
+call altmaps#enable()
 
