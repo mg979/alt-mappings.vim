@@ -11,24 +11,20 @@ map <silent> <Plug>RunMacro          :<c-u>call altmaps#run_macro(v:count1)<CR>
 
 " no need for alt mappings in neovim/gui
 if has('nvim') || has('gui_running')
-    finish
+  finish
 endif
 
-if !hasmapto('<Plug>RecordMacro')
-    nmap q <Plug>RecordMacro
+if empty(mapcheck("q", 'n')) && !hasmapto('<Plug>SilentMacro')
+  nmap q <Plug>SilentMacro
 endif
 
-if !hasmapto('<Plug>SilentMacro')
-    nmap qq <Plug>SilentMacroq
-endif
-
-if !hasmapto('<Plug>RunMacro')
-    nmap @ <Plug>RunMacro
+if empty(mapcheck("@", 'n')) && !hasmapto('<Plug>RunMacro')
+  nmap @ <Plug>RunMacro
 endif
 
 map <silent> <Plug>ToggleAltBindings :<c-u>call altmaps#toggle()<cr>
-if !hasmapto('<Plug>ToggleAltBindings')
-    nmap <silent> <F12> <Plug>ToggleAltBindings
+if empty(mapcheck("\<F12>", 'n')) && !hasmapto('<Plug>ToggleAltBindings')
+  nmap <silent> <F12> <Plug>ToggleAltBindings
 endif
 
 
