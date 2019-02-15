@@ -18,7 +18,7 @@ fun! altmaps#record_macro(...)
       echohl Label | echo "Macro register?" | echohl None
     endif
     let s:macro_key = nr2char(getchar())
-    if s:cancel() | return | endif
+    if s:abort() || s:wrong() | return | endif
     call altmaps#disable()
     if exists('*MacroBefore') | call MacroBefore() | endif
     let g:recording_macro = 1
@@ -28,12 +28,41 @@ endfun
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-fun! s:cancel()
+fun! altmaps#run_macro(count)
+  echohl Label | echo "Register?" | echohl None
+  let s:macro_key = nr2char(getchar())
+  if s:symbol() || s:abort() || s:wrong() | return | endif
+  if exists('*MacroBefore') | call MacroBefore() | endif
+  call altmaps#disable()
+  execute "normal! ".(a:count>0? a:count."@".s:macro_key : "@@")
+  if exists('*MacroAfter') | call MacroAfter() | endif
+  call altmaps#enable()
+endfun
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+fun! s:symbol()
+  if index([':', '=', '/', '.'], s:macro_key) >= 0
+    call feedkeys("@".s:macro_key, 'n')
+    return 1
+  endif
+endfun
+
+"------------------------------------------------------------------------------
+
+fun! s:abort()
   if s:macro_key == "\<esc>"
     echohl WarningMsg | echon "\tCanceled." | echohl None
     return 1
-  elseif index([':', '=', '/', '.'], s:macro_key) >= 0
-    call feedkeys("@".s:macro_key, 'n')
+  endif
+endfun
+
+"------------------------------------------------------------------------------
+
+fun! s:wrong()
+  let K = char2nr(s:macro_key)
+  if !( K >= 65 && K<= 122 || K >= 48 && K <= 57 )
+    echohl WarningMsg | echon "\tWrong character." | echohl None
     return 1
   endif
 endfun
@@ -52,19 +81,6 @@ fun! altmaps#toggle()
     redraw!
     echo "Alt bindings disabled"
   endif
-endfun
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-fun! altmaps#run_macro(count)
-  echohl Label | echo "Register?" | echohl None
-  let s:macro_key = nr2char(getchar())
-  if s:cancel() | return | endif
-  if exists('*MacroBefore') | call MacroBefore() | endif
-  call altmaps#disable()
-  execute "normal! ".(a:count>0? a:count."@".s:macro_key : "@@")
-  if exists('*MacroAfter') | call MacroAfter() | endif
-  call altmaps#enable()
 endfun
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
