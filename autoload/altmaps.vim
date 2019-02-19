@@ -162,8 +162,6 @@ fun! altmaps#enable()
   set <M-.>=.
   set <M-_>=_
   set <M-:>=:
-  "set <M-[>=[
-  set <M-]>=]
   set <M-'>='
   set <M-->=-
   set <M-+>=+
@@ -174,7 +172,6 @@ fun! altmaps#enable()
   set <M-{>={
   set <M-}>=}
   set <M-?>=?
-  "set <M-">="
   set <M-^>=^
   set <M-~>=~
   set <M-!>=!
@@ -184,7 +181,6 @@ fun! altmaps#enable()
   set <M-(>=(
   set <M-)>=)
   set <M-<>=<
-  "set <M->>=>
 
   "nmap [1;3P  <Plug>(M-F1)
   "nmap [1;3Q  <Plug>(M-F2)
@@ -295,7 +291,6 @@ fun! altmaps#disable()
   set <M-.>=<Nop>
   set <M-_>=<Nop>
   set <M-:>=<Nop>
-  set <M-]>=<Nop>
   set <M-'>=<Nop>
   set <M-->=<Nop>
   set <M-+>=<Nop>
