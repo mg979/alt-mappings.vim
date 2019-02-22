@@ -61,7 +61,7 @@ endfun
 
 fun! s:wrong()
   let K = char2nr(s:macro_key)
-  if !( K >= 65 && K<= 122 || K >= 48 && K <= 57 )
+  if !( K >= 65 && K<= 122 || K >= 48 && K <= 57 ) && K != 64
     echohl WarningMsg | echon "\tWrong character." | echohl None
     return 1
   endif
