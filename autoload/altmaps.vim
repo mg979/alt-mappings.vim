@@ -42,8 +42,9 @@ endfun
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 fun! s:symbol()
-  if index([':', '=', '/', '.'], s:macro_key) >= 0
-    call feedkeys("@".s:macro_key, 'n')
+  if index([':', '=', '/', '.', ';'], s:macro_key) >= 0
+    let key = s:macro_key == ';' ? ':' : s:macro_key
+    call feedkeys("@".key, 'n')
     return 1
   endif
 endfun
@@ -181,34 +182,6 @@ fun! altmaps#enable()
   set <M-(>=(
   set <M-)>=)
   set <M-<>=<
-
-  "nmap [1;3P  <Plug>(M-F1)
-  "nmap [1;3Q  <Plug>(M-F2)
-  "nmap [1;3R  <Plug>(M-F3)
-  "nmap [1;3S  <Plug>(M-F4)
-  "map [15;3~ <Plug>(M-F5)
-  "map [17;3~ <Plug>(M-F6)
-  "map [18;3~ <Plug>(M-F7)
-  "map [19;3~ <Plug>(M-F8)
-  "map [20;3~ <Plug>(M-F9)
-  "map [21;3~ <Plug>(M-F10)
-  "map [23;3~ <Plug>(M-F11)
-  "map [24;3~ <Plug>(M-F12)
-
-  "map [1;3B <Plug>(M-up)
-  "map [1;3A <Plug>(M-down)
-  "map [1;3D <Plug>(M-left)
-  "map [1;3C <Plug>(M-right)
-
-  "map [1;7A <Plug>(M-C-up)
-  "map [1;7B <Plug>(M-C-down)
-  "map [1;7D <Plug>(M-C-left)
-  "map [1;7C <Plug>(M-C-right)
-
-  "map [1;7A <Plug>(M-C-up)
-  "map [1;7B <Plug>(M-C-down)
-  "map [1;7D <Plug>(M-C-left)
-  "map [1;7C <Plug>(M-C-right)
 endfun
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -310,33 +283,4 @@ fun! altmaps#disable()
   set <M-(>=<Nop>
   set <M-)>=<Nop>
   set <M-<>=<Nop>
-
-  "nunmap [1;3P
-  "nunmap [1;3Q
-  "nunmap [1;3R
-  "nunmap [1;3S
-  "unmap [15;3~
-  "unmap [17;3~
-  "unmap [18;3~
-  "unmap [19;3~
-  "unmap [20;3~
-  "unmap [21;3~
-  "unmap [23;3~
-  "unmap [24;3~
-
-  "unmap [1;3B
-  "unmap [1;3A
-  "unmap [1;3D
-  "unmap [1;3C
-
-  "unmap [1;7A
-  "unmap [1;7B
-  "unmap [1;7D
-  "unmap [1;7C
-
-  "unmap [1;7A
-  "unmap [1;7B
-  "unmap [1;7D
-  "unmap [1;7C
-
 endfun
