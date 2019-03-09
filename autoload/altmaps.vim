@@ -31,10 +31,14 @@ endfun
 fun! altmaps#run_macro(count)
   echohl Label | echo "Register?" | echohl None
   let s:macro_key = nr2char(getchar())
+
   if s:symbol() || s:abort() || s:wrong() | return | endif
+
   if exists('*MacroBefore') | call MacroBefore() | endif
   call altmaps#disable()
+
   execute "normal! ".(a:count>0? a:count."@".s:macro_key : "@@")
+
   if exists('*MacroAfter') | call MacroAfter() | endif
   call altmaps#enable()
 endfun
@@ -88,7 +92,7 @@ endfun
 
 fun! altmaps#enable()
 
-  if g:alt_keys_enabled || has('nvim') || has('gui_running')
+  if has('nvim') || has('gui_running') || g:alt_keys_enabled
     return
   endif
 
@@ -189,7 +193,7 @@ endfun
 fun! altmaps#disable()
 
 
-  if !g:alt_keys_enabled || has('nvim') || has('gui_running')
+  if has('nvim') || has('gui_running') || !g:alt_keys_enabled
     return
   endif
 
