@@ -46,7 +46,7 @@ endfun
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 fun! s:symbol()
-  if index([':', '=', '/', '.', ';'], s:macro_key) >= 0
+  if index(split('"-:=/.%;#*+~', '\zs'), s:macro_key) >= 0
     let key = s:macro_key == ';' ? ':' : s:macro_key
     call feedkeys("@".key, 'n')
     return 1

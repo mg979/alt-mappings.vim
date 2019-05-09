@@ -11,6 +11,7 @@ map <silent> <Plug>RunMacro          :<c-u>call altmaps#run_macro(v:count1)<CR>
 
 " no need for alt mappings in neovim/gui
 if has('nvim') || has('gui_running')
+  nnoremap @; @:
   finish
 endif
 
