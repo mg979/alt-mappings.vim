@@ -33,3 +33,5 @@ endif
 let g:alt_keys_enabled = 0
 call altmaps#enable()
 
+au User visual_multi_start call altmaps#disable()
+au User visual_multi_exit  call altmaps#enable()

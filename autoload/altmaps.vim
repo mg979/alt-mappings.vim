@@ -193,7 +193,6 @@ endfun
 
 fun! altmaps#disable()
 
-
   if has('nvim') || has('gui_running') || !g:alt_keys_enabled
     return
   endif
