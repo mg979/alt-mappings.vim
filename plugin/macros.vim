@@ -7,15 +7,19 @@
 
 let g:loaded_alt_mappings = 1
 
-map <silent> <Plug>RecordMacro       :<c-u>call altmaps#record_macro()<cr>
-map <silent> <Plug>SilentMacro       :<c-u>call altmaps#record_macro(1)<cr>
-map <silent> <Plug>RunMacro          :<c-u>call altmaps#run_macro(v:count1)<CR>
+nnoremap <silent> <Plug>RecordMacro :<c-u>call altmaps#record_macro()<cr>
+nnoremap <silent> <Plug>SilentMacro :<c-u>call altmaps#record_macro(1)<cr>
+nnoremap <silent> <Plug>RunMacro    :<c-u>call altmaps#run_macro(v:count1)<CR>
 
-if empty(mapcheck("q", 'n')) && !hasmapto('<Plug>SilentMacro')
+if empty(maparg('q', 'n')) && !hasmapto('<Plug>SilentMacro')
   nmap q <Plug>SilentMacro
 endif
 
-if empty(mapcheck("@", 'n')) && !hasmapto('<Plug>RunMacro')
+if empty(maparg('<C-q>', 'n')) && !hasmapto('<Plug>RecordMacro')
+  nmap <C-q> <Plug>RecordMacro
+endif
+
+if empty(maparg('@', 'n')) && !hasmapto('<Plug>RunMacro')
   nmap @ <Plug>RunMacro
 endif
 
