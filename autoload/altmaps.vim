@@ -3,6 +3,7 @@
 fun! altmaps#record_macro(...)
   if exists('g:recording_macro')
     if exists('*MacroAfter') | call MacroAfter() | endif
+    silent doautocmd <nomodeline> User RecordEnd
     unlet g:recording_macro
     execute "normal! q"
     execute "let @".s:macro_key." = @".s:macro_key."[:-2]"
@@ -21,6 +22,7 @@ fun! altmaps#record_macro(...)
     if s:abort() || s:cmdwin() || s:wrong() | return | endif
     call altmaps#disable()
     if exists('*MacroBefore') | call MacroBefore() | endif
+    silent doautocmd <nomodeline> User RecordStart
     let g:recording_macro = 1
     execute "normal! q" . s:macro_key
   endif
@@ -35,11 +37,13 @@ fun! altmaps#run_macro(count)
   if s:symbol() || s:abort() || s:wrong() | return | endif
 
   if exists('*MacroBefore') | call MacroBefore() | endif
+  silent doautocmd <nomodeline> User MacroStart
   call altmaps#disable()
 
   execute "normal! ".(a:count>0? a:count."@".s:macro_key : "@@")
 
   if exists('*MacroAfter') | call MacroAfter() | endif
+  silent doautocmd <nomodeline> User MacroEnd
   call altmaps#enable()
 endfun
 
