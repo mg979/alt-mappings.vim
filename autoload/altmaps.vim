@@ -18,7 +18,7 @@ fun! altmaps#record_macro(...)
       echohl Label | echo "Macro register?" | echohl None
     endif
     let s:macro_key = nr2char(getchar())
-    if s:abort() || s:wrong() | return | endif
+    if s:abort() || s:cmdwin() || s:wrong() | return | endif
     call altmaps#disable()
     if exists('*MacroBefore') | call MacroBefore() | endif
     let g:recording_macro = 1
@@ -58,6 +58,15 @@ endfun
 fun! s:abort()
   if s:macro_key == "\<esc>"
     echohl WarningMsg | echon "\tCanceled." | echohl None
+    return 1
+  endif
+endfun
+
+"------------------------------------------------------------------------------
+
+fun! s:cmdwin()
+  if index(split(':/?', '\zs'), s:macro_key) >= 0
+    call feedkeys("q".s:macro_key, 'n')
     return 1
   endif
 endfun
