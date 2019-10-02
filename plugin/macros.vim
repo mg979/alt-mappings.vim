@@ -7,28 +7,31 @@
 
 let g:loaded_alt_mappings = 1
 
-nnoremap <silent> <Plug>RecordMacro :<c-u>call altmaps#record_macro()<cr>
-nnoremap <silent> <Plug>SilentMacro :<c-u>call altmaps#record_macro(1)<cr>
-nnoremap <silent> <Plug>RunMacro    :<c-u>call altmaps#run_macro(v:count1)<CR>
-
-if empty(maparg('q', 'n')) && !hasmapto('<Plug>SilentMacro')
-  nmap q <Plug>SilentMacro
-endif
-
-if empty(maparg('<C-q>', 'n')) && !hasmapto('<Plug>RecordMacro')
-  nmap <C-q> <Plug>RecordMacro
-endif
-
-if empty(maparg('@', 'n')) && !hasmapto('<Plug>RunMacro')
-  nmap @ <Plug>RunMacro
-endif
-
 " no need for alt mappings in neovim/gui
 if has('nvim') || has('gui_running')
   finish
 endif
 
-map <silent> <Plug>ToggleAltBindings :<c-u>call altmaps#toggle()<cr>
+nnoremap <silent> <Plug>ToggleAltBindings :<c-u>call altmaps#toggle()<cr>
+nnoremap <silent> <Plug>RecordMacro       :<c-u>call altmaps#record_macro()<cr>
+nnoremap <silent> <Plug>SilentMacro       :<c-u>call altmaps#record_macro(1)<cr>
+nnoremap <silent> <Plug>RunMacro          :<c-u>call altmaps#run_macro(v:count1)<CR>
+
+
+if get(g:, 'alt_macro_mappings', 0)
+  if empty(maparg('q', 'n')) && !hasmapto('<Plug>SilentMacro')
+    nmap q <Plug>SilentMacro
+  endif
+
+  if empty(maparg('<C-q>', 'n')) && !hasmapto('<Plug>RecordMacro')
+    nmap <C-q> <Plug>RecordMacro
+  endif
+
+  if empty(maparg('@', 'n')) && !hasmapto('<Plug>RunMacro')
+    nmap @ <Plug>RunMacro
+  endif
+endif
+
 if empty(mapcheck("\<F12>", 'n')) && !hasmapto('<Plug>ToggleAltBindings')
   nmap <silent> <F12> <Plug>ToggleAltBindings
 endif
