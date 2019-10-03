@@ -1,7 +1,7 @@
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Alt mappings for terminal vim, also disable mappings when executing macros
-" A wrapper for the 'record macro' command is provided, so that it will
+" A wrapper for the 'record/run macro' commands is provided, so that it will
 " disable alt mappings while recording/running, and re-enable them thereafter
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
