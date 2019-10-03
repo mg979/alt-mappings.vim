@@ -1,109 +1,79 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-fun! altmaps#record_macro(...)
+fun! altmaps#record_macro()
+  "Disable alt mappings while recording, re-enable them when finished {{{1
   if exists('g:recording_macro')
-    if exists('*MacroAfter') | call MacroAfter() | endif
     silent doautocmd <nomodeline> User RecordEnd
     unlet g:recording_macro
-    execute "normal! q"
+    normal! q
     execute "let @".s:macro_key." = @".s:macro_key."[:-2]"
     call altmaps#enable()
-    if !a:0
-      redraw!
-      echohl Label | echo "Finished recording macro "
-      echohl None  | echon s:macro_key
-    endif
   else
-    if !a:0
-      redraw!
-      echohl Label | echo "Macro register?" | echohl None
-    endif
-    let s:macro_key = nr2char(getchar())
-    if s:abort() || s:cmdwin() || s:wrong() | return | endif
-    call altmaps#disable()
-    if exists('*MacroBefore') | call MacroBefore() | endif
-    silent doautocmd <nomodeline> User RecordStart
-    let g:recording_macro = 1
-    execute "normal! q" . s:macro_key
+    try
+      let s:macro_key = nr2char(getchar())
+      if s:cmdwin()
+        return feedkeys('q'.s:macro_key, 'n')
+      elseif s:valid()
+        call altmaps#disable()
+        silent doautocmd <nomodeline> User RecordStart
+        let g:recording_macro = 1
+      endif
+      execute "normal! q" . s:macro_key
+    catch
+      if exists('g:recording_macro')
+        silent doautocmd <nomodeline> User RecordEnd
+        unlet g:recording_macro
+      endif
+    endtry
   endif
-endfun
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+endfun "}}}
 
 fun! altmaps#run_macro(count)
-  echohl Label | echo "Register?" | echohl None
-  let s:macro_key = nr2char(getchar())
+  "Disable alt mappings while running macro, re-enable them when finished {{{1
+  let key = nr2char(getchar())
 
-  if s:symbol() || s:abort() || s:wrong() | return | endif
-
-  if exists('*MacroBefore') | call MacroBefore() | endif
   silent doautocmd <nomodeline> User MacroStart
   call altmaps#disable()
 
-  execute "normal! ".(a:count>0? a:count."@".s:macro_key : "@@")
+  execute "normal!" a:count."@".key
 
-  if exists('*MacroAfter') | call MacroAfter() | endif
   silent doautocmd <nomodeline> User MacroEnd
   call altmaps#enable()
-endfun
+endfun "}}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-fun! s:symbol()
-  if index(split('"-:=/.%;#*+~', '\zs'), s:macro_key) >= 0
-    let key = s:macro_key == ';' ? ':' : s:macro_key
-    call feedkeys("@".key, 'n')
-    return 1
-  endif
-endfun
-
-"------------------------------------------------------------------------------
-
-fun! s:abort()
-  if s:macro_key == "\<esc>"
-    echohl WarningMsg | echon "\tCanceled." | echohl None
-    return 1
-  endif
-endfun
-
-"------------------------------------------------------------------------------
-
 fun! s:cmdwin()
-  if index(split(':/?', '\zs'), s:macro_key) >= 0
-    call feedkeys("q".s:macro_key, 'n')
-    return 1
-  endif
-endfun
+  "q: q? q/{{{1
+  return index(split(':/?', '\zs'), s:macro_key) >= 0
+endfun "}}}
 
-"------------------------------------------------------------------------------
-
-fun! s:wrong()
+fun! s:valid()
+  "Valid register keys: A-Z, a-z, 0-9, unnamed {{{1
   let K = char2nr(s:macro_key)
-  if !( K >= 65 && K<= 122 || K >= 48 && K <= 57 ) && K != 64
-    echohl WarningMsg | echon "\tWrong character." | echohl None
-    return 1
-  endif
-endfun
+  return  ( K >= 65 && K <= 90  ) ||
+        \ ( K >= 97 && K <= 122 ) ||
+        \ ( K >= 48 && K <= 57  ) ||
+        \ K == 34                   
+endfun "}}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 fun! altmaps#toggle()
+  "<F12> by default toggles alt mappings {{{1
   if !g:alt_keys_enabled
-    if exists('*MacroAfter') | call MacroAfter() | endif
     call altmaps#enable()
     redraw!
     echo "Alt bindings enabled"
   else
     call altmaps#disable()
-    if exists('*MacroBefore') | call MacroBefore() | endif
     redraw!
     echo "Alt bindings disabled"
   endif
-endfun
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+endfun "}}}
 
 fun! altmaps#enable()
+  "Enable meta mappings {{{1
 
   if has('nvim') || has('gui_running') || g:alt_keys_enabled
     return
@@ -200,11 +170,10 @@ fun! altmaps#enable()
   set <M-(>=(
   set <M-)>=)
   set <M-<>=<
-endfun
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+endfun "}}}
 
 fun! altmaps#disable()
+  "Disable meta mappings {{{1
 
   if has('nvim') || has('gui_running') || !g:alt_keys_enabled
     return
@@ -301,4 +270,6 @@ fun! altmaps#disable()
   set <M-(>=<Nop>
   set <M-)>=<Nop>
   set <M-<>=<Nop>
-endfun
+endfun "}}}
+
+" vim: set sw=2 ts=2 sts=2 et fdm=marker
