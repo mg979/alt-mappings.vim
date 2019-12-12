@@ -18,7 +18,7 @@ nnoremap <silent> <Plug>RunMacro          :<c-u>call altmaps#run_macro(v:count1)
 
 
 if get(g:, 'alt_macro_mappings', 1)
-  if empty(maparg('q', 'n')) && !hasmapto('<Plug>SilentMacro')
+  if empty(maparg('q', 'n')) && !hasmapto('<Plug>RecordMacro')
     nmap q <Plug>RecordMacro
   endif
 
