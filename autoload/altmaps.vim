@@ -35,9 +35,14 @@ fun! altmaps#run_macro(count)
   silent doautocmd <nomodeline> User MacroStart
   call altmaps#disable()
 
-  execute "normal!" a:count."@".key
+  if key == '='
+    let n = a:count > 1 ? a:count : ''
+    call feedkeys(n . '@=', 'n')
+  else
+    execute "normal!" a:count."@".key
+    silent doautocmd <nomodeline> User MacroEnd
+  endif
 
-  silent doautocmd <nomodeline> User MacroEnd
   call altmaps#enable()
 endfun "}}}
 
@@ -54,7 +59,7 @@ fun! s:valid()
   return  ( K >= 65 && K <= 90  ) ||
         \ ( K >= 97 && K <= 122 ) ||
         \ ( K >= 48 && K <= 57  ) ||
-        \ K == 34                   
+        \ K == 34
 endfun "}}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
