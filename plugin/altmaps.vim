@@ -7,6 +7,22 @@
 
 let g:loaded_alt_mappings = 1
 
+" create aliases for C-Fn keys
+if has('nvim')
+  nmap <F25> <C-F1>
+  nmap <F26> <C-F2>
+  nmap <F27> <C-F3>
+  nmap <F28> <C-F4>
+  nmap <F29> <C-F5>
+  nmap <F30> <C-F6>
+  nmap <F31> <C-F7>
+  nmap <F32> <C-F8>
+  nmap <F33> <C-F9>
+  nmap <F34> <C-F10>
+  nmap <F35> <C-F11>
+  nmap <F36> <C-F12>
+endif
+
 " no need for alt mappings in neovim/gui
 if has('nvim') || has('gui_running')
   finish
