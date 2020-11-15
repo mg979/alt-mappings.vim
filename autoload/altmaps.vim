@@ -175,6 +175,8 @@ fun! altmaps#enable()
   set <M-(>=(
   set <M-)>=)
   set <M-<>=<
+
+  set <S-Del>=[3;2~
 endfun "}}}
 
 fun! altmaps#disable()
@@ -275,6 +277,8 @@ fun! altmaps#disable()
   set <M-(>=<Nop>
   set <M-)>=<Nop>
   set <M-<>=<Nop>
+
+  set <S-Del>=<Nop>
 endfun "}}}
 
 " vim: set sw=2 ts=2 sts=2 et fdm=marker
