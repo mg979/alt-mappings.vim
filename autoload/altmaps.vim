@@ -152,7 +152,7 @@ fun! altmaps#enable()
   set <M-/>=/
   set <M-=>==
   set <M-,>=,
-  " set <M-.>=.
+  set <M-.>=.
   set <M-_>=_
   set <M-:>=:
   set <M-;>=;
@@ -254,7 +254,7 @@ fun! altmaps#disable()
   set <M-/>=<Nop>
   set <M-=>=<Nop>
   set <M-,>=<Nop>
-  " set <M-.>=<Nop>
+  set <M-.>=<Nop>
   set <M-_>=<Nop>
   set <M-:>=<Nop>
   set <M-;>=<Nop>

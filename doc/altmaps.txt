@@ -8,15 +8,9 @@ This plugin does 2 things:
 - generates codes to be able to map `meta keys` in terminal vim
 - provides plugs for a wrapper of the run/record macros commands (|q| and |@|)
 
-You can also toggle the `meta keys` at will with <F12>.
-
-------------------------------------
-Plug			  Default~
-------------------------------------
-<Plug>ToggleAltBindings	  <F12>
-<Plug>RecordMacro	  unmapped
-<Plug>RunMacro		  unmapped
-------------------------------------
+	<Plug>ToggleAltBindings
+	<Plug>RecordMacro
+	<Plug>RunMacro
 
 The wrapper works by disabling `meta keys` just before running/recording the
 macro, and applying them back when finished.
@@ -24,10 +18,23 @@ macro, and applying them back when finished.
 User autocommands are issued when starting/finishing recording/running
 a macro, so you can do:
 >
-  au User RecordStart call ...()
-  au User RecordEnd   call ...()
-  au User MacroStart  call ...()
-  au User MacroStart  call ...()
+	au User RecordStart call ...()
+	au User RecordEnd   call ...()
+	au User MacroStart  call ...()
+	au User MacroStart  call ...()
+
+
+
+TERMINAL WINDOWS                                       *alt-mappings-terminal*
+===============================================================================
+
+In terminal windows meta mappings are best disabled, or they will break many
+useful terminal mappings. It's up to you, though.
+User autocommands are issued, so that you can do:
+>
+	au User TerminalEnter call altmaps#disable()
+	au User TerminalLeave call altmaps#enable()
+
 
 ==============================================================================
 vim:tw=78:ts=8:ft=help:norl:noet:fen:fdl=0:
