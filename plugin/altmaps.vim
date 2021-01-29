@@ -31,6 +31,7 @@ nnoremap <silent> <Plug>ToggleAltBindings :<c-u>call altmaps#toggle()<cr>
 nnoremap <silent> <Plug>RecordMacro       :<c-u>call altmaps#record_macro()<cr>
 nnoremap <silent> <Plug>RunMacro          :<c-u>call altmaps#run_macro(v:count1)<CR>
 
+command! -bar ToggleAltBindings call altmaps#toggle()
 
 " enable alt bindings on load
 let g:alt_keys_enabled = 0
