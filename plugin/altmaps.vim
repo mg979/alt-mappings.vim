@@ -45,7 +45,7 @@ augroup alt_mappings
         au TerminalOpen * if &buftype == 'terminal' |
                     \ silent doautocmd <nomodeline> User TerminalEnter |
                     \ endif
-        au BufEnter !* silent doautocmd <nomodeline> User TerminalEnter
-        au BufLeave !* silent doautocmd <nomodeline> User TerminalLeave
+        au BufEnter !/* silent doautocmd <nomodeline> User TerminalEnter
+        au BufLeave !/* silent doautocmd <nomodeline> User TerminalLeave
     endif
 augroup END
