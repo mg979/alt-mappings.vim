@@ -31,15 +31,15 @@ endfun "}}}
 fun! altmaps#run_macro(count)
   "Disable alt mappings while running macro, re-enable them when finished {{{1
   let key = nr2char(getchar())
+  let n = a:count > 1 ? a:count : ''
 
   silent doautocmd <nomodeline> User MacroStart
   call altmaps#disable()
 
   if key == '='
-    let n = a:count > 1 ? a:count : ''
     call feedkeys(n . '@=', 'n')
   else
-    execute "normal!" a:count."@".key
+    execute "normal! ". n ."@". key
     silent doautocmd <nomodeline> User MacroEnd
   endif
 

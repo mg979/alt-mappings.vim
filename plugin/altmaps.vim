@@ -23,7 +23,7 @@ if has('nvim')
 endif
 
 " no need for alt mappings in neovim/gui
-if has('nvim') || has('gui_running')
+if has('nvim') || has('gui_running') || v:version < 800
   finish
 endif
 
@@ -35,7 +35,6 @@ command! -bar ToggleAltBindings call altmaps#toggle()
 
 " enable alt bindings on load
 let g:alt_keys_enabled = 0
-call altmaps#enable()
 
 augroup alt_mappings
     au!
@@ -45,7 +44,14 @@ augroup alt_mappings
         au TerminalOpen * if &buftype == 'terminal' |
                     \ silent doautocmd <nomodeline> User TerminalEnter |
                     \ endif
-        au BufEnter !/* silent doautocmd <nomodeline> User TerminalEnter
-        au BufLeave !/* silent doautocmd <nomodeline> User TerminalLeave
     endif
+    au VimEnter * call timer_start(50, { t -> altmaps#enable() })
+    au BufEnter * if &buftype == 'terminal' |
+                \ silent doautocmd <nomodeline> User TerminalEnter |
+                \ endif
+    au BufLeave * if &buftype == 'terminal' |
+                \ silent doautocmd <nomodeline> User TerminalLeave |
+                \ endif
+    au BufEnter !/* silent doautocmd <nomodeline> User TerminalEnter
+    au BufLeave !/* silent doautocmd <nomodeline> User TerminalLeave
 augroup END
